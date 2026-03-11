@@ -1,5 +1,12 @@
 package com.warehouse.dto;
 
-public class SerialNoTrakingdto {
+import lombok.Data;
 
+@Data
+public class SerialNoTrakingdto {
+    private Long Id;
+    private String SerialNo;
+    private String ProductName;
+    private String Locationcode;
+    private String Status;
 }

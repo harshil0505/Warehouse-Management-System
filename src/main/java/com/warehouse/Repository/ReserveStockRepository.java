@@ -1,5 +1,9 @@
 package com.warehouse.Repository;
 
-public interface ReserveStockRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.warehouse.model.ReserveStock;
+
+public interface ReserveStockRepository extends JpaRepository<ReserveStock, Long> {
 
 }

@@ -1,6 +1,10 @@
 package com.warehouse.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +14,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class StockAdjustments {
+     @jakarta.persistence.Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private Long Id;
+
+     @ManyToOne
+     private Product product;
+
      private int  oldQuantity;
+
      private int newQuantity;
+
+     private int changeInQuanity;
+
+     @Enumerated(jakarta.persistence.EnumType.STRING)
      private Reasons reasons;
 }

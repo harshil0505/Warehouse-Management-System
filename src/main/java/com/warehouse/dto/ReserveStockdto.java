@@ -1,5 +1,14 @@
 package com.warehouse.dto;
 
-public class ReserveStockdto {
+import com.warehouse.model.Inventory;
 
+@Data
+public class ReserveStockdto {
+   
+    private Long Id;
+    private Product product;
+    private int ReserveQuantity;
+    private Inventory inventory;
+
+    
 }

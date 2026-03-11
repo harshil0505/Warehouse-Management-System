@@ -9,7 +9,7 @@ public class ReserveStock {
     private Long  Id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product")
     private Product product;
 
     private int  ReserveQuantity;

@@ -4,12 +4,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.warehouse.Repository.InventoryRepository;
+import com.warehouse.Repository.StockAdjustmentRepository;
 import com.warehouse.Repository.StorageBinRepository;
 import com.warehouse.dto.Inventorydto;
 import com.warehouse.dto.ReserveStockdto;
 import com.warehouse.dto.SerialNoTrakingdto;
 import com.warehouse.dto.StockAdjustmentsdto;
 import com.warehouse.model.Inventory;
+import com.warehouse.model.Reasons;
+import com.warehouse.model.StockAdjustments;
 import com.warehouse.model.StorageBin;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
@@ -27,6 +30,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
     private ModelMapper modelmapper;
+
+    @Autowired
+    private StockAdjustmentRepository stockAdjustmentsRepository;
     
     @Override
     public Inventorydto addStock(Inventorydto dto) {
@@ -45,9 +51,23 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public StockAdjustmentsdto Adjustment(StockAdjustmentsdto stockAdjustmentsdto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Adjustment'");
+    public StockAdjustmentsdto Adjustment(Long productId, int changeInQuanity, Reasons reasons) {
+       Product product=productRepository.findById(productId)
+         .orElseThrow(()->new ResourceNotFoundException("Product not found with id: "+productId));
+
+        int oldQuantity =Product.getQuantity();
+        int newQuantity=oldQuantity+changeInQuanity;
+
+        StockAdjustments stockAdjustments = new StockAdjustments();
+        stockAdjustments.setProduct(product);
+        stockAdjustments.setOldQuantity(oldQuantity);
+        stockAdjustments.setNewQuantity(newQuantity);
+        stockAdjustments.setChangeInQuanity(changeInQuanity);
+        stockAdjustments.setReasons(reasons);
+
+        StockAdjustments saveStockAdjustments=stockAdjustmentsRepository.save(stockAdjustments);
+        return modelmapper.map(saveStockAdjustments, StockAdjustmentsdto.class);
+
     }
 
     @Override
@@ -61,5 +81,17 @@ public class InventoryServiceImpl implements InventoryService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'releaseStock'");
     }
+
+
+
+    @Override
+    public StockAdjustmentsdto Adjustment(StockAdjustmentsdto stockAdjustmentsdto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Adjustment'");
+    }
+
+
+
+  
 
 }

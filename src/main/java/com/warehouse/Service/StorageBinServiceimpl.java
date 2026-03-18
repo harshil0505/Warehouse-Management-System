@@ -36,7 +36,7 @@ public class StorageBinServiceimpl  implements StorageBinService {
     public String generateLocationCode(Long Id,String zone, int row, int rack, int shelf, int bin) {
 
         return String.format(
-            "%s-%02d-R%02d-S%02d-B%02d",
+            "%d-%s-R%02d-K%02d-S%02d-B%02d",
             Id,
             zone,
             row,

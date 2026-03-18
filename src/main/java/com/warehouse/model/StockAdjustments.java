@@ -25,7 +25,7 @@ public class StockAdjustments {
 
      private int newQuantity;
 
-     private int changeInQuanity;
+     private Integer changeInQuanity;
 
      @Enumerated(jakarta.persistence.EnumType.STRING)
      private Reasons reasons;

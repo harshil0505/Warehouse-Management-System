@@ -14,16 +14,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class StorageBin {
+public class Role {
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storageBinId;
-  
-   
-    
-    private String Locationcode;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
-    private LocationcodeType locationcodeType;
-    
+    private AppRole roleName;
+
+    public Role(AppRole roleName) {
+        this.roleName = roleName;
+    }
 }

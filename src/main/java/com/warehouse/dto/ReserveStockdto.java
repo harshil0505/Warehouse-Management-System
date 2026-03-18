@@ -1,6 +1,9 @@
 package com.warehouse.dto;
 
 import com.warehouse.model.Inventory;
+import com.warehouse.model.Product;
+
+import lombok.Data;
 
 @Data
 public class ReserveStockdto {

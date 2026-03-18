@@ -1,11 +1,18 @@
 package com.warehouse.model;
 
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,16 +21,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class StorageBin {
+public class User {
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storageBinId;
+    private Long userId;
+    private String userName;
+    private String password;
   
-   
-    
-    private String Locationcode;
+  
+   @ManyToMany
+   private List<Role> roles;
 
-    @Enumerated(EnumType.STRING)
-    private LocationcodeType locationcodeType;
-    
+
 }

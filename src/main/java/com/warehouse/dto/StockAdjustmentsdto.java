@@ -1,5 +1,6 @@
 package com.warehouse.dto;
 
+import com.warehouse.model.Product;
 import com.warehouse.model.Reasons;
 import lombok.Data;
 

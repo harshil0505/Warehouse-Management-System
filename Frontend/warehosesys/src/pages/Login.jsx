@@ -34,9 +34,9 @@ const Login = () => {
       localStorage.setItem("role", res.data.role);
 
       if (res.data.role === "ADMIN") {
-        navigate("/admin-dashboard");
+        navigate("/dashboard");
       } else {
-        navigate("/staff-dashboard");
+        navigate("/dashboard");
       }
 
     } catch {

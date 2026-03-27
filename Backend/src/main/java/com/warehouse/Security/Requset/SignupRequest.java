@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class SignupRequest {
     
     @NotBlank(message = "Username is required")
-    private String UserName;
+    private String userName;
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters")

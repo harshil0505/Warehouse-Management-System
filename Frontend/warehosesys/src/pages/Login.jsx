@@ -33,11 +33,7 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.role);
 
-      if (res.data.role === "ADMIN") {
-        navigate("/dashboard");
-      } else {
-        navigate("/dashboard");
-      }
+     navigate("/dashboard");
 
     } catch {
       setError("Invalid username or password");

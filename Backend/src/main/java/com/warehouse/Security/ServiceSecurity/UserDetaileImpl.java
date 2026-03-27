@@ -3,6 +3,7 @@ package com.warehouse.Security.ServiceSecurity;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,7 +31,7 @@ public class UserDetaileImpl implements UserDetails {
     public static UserDetaileImpl build(User user) {
 
         List<SimpleGrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName().name())) 
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName().name()))
                 .toList();
     
         return new UserDetaileImpl(
@@ -40,7 +41,6 @@ public class UserDetaileImpl implements UserDetails {
                 authorities
         );
     }
-    
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -80,5 +80,11 @@ public class UserDetaileImpl implements UserDetails {
     @Override
     public int hashCode() {
         return Objects.hash(id, username);
+    }
+
+
+    public static UserDetails build(Optional<User> user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'build'");
     }
 }

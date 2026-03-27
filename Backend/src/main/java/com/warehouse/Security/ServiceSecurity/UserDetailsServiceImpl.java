@@ -2,6 +2,8 @@ package com.warehouse.Security.ServiceSecurity;
 
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,17 +25,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-
-      User user = userRepository.findByUserName(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(
-                    "User not found with email: " + username);
-        }
-
+    
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        "User not found with username: " + username));
+    
         return UserDetaileImpl.build(user);
     }
-
-   
 
    
 }

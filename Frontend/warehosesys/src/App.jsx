@@ -9,6 +9,7 @@ import InventoryPage from "./pages/InventoryPage";
 import SerialTrackingPage from "./pages/SerialTrackingPage";
 import StockAdjustmentPage from "./pages/StockAdjustmentPage";
 import ReserveStockPage from "./pages/ReserveStockPage";
+import Profile from "./pages/Profile";
 import "./App.css";
 
 
@@ -17,8 +18,9 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/deshborad" element={<Dashboard />} />
-      <Route path="/product" element={<Product/>}  />\
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/product" element={<Product/>}  />
       <Route path="/order" element={<Order/>}  />
       <Route path="/strogeBin" element={<StorageBinPage />} />
       <Route path="/inventory" element={<InventoryPage />} />

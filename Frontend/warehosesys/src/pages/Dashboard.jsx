@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Sidebar from "../components/Sidebar";
 import ProfileMenu from "../components/ProfileMenu";
 
 const Dashboard = () => {
@@ -56,7 +55,7 @@ const Dashboard = () => {
     <div className="flex min-h-screen bg-gradient-to-br from-green-100 via-green-200 to-green-300">
       
       {/* Sidebar */}
-      <Sidebar />
+      
 
       {/* Main Content */}
       <div className="flex-1 p-6">

@@ -45,6 +45,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             return;
         }
     
+        if (path.startsWith("/QRcode_product/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         logger.debug("AuthTokenFilter called for URI: {}", path);
     
         try {

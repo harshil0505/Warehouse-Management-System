@@ -40,7 +40,7 @@ public class WebSecurityConfig {
 
 
 
-    
+ 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -90,6 +90,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/api/products/add").hasRole("ADMIN")
                     .requestMatchers("/api/customer/**").hasAnyRole( "ADMIN")
                     .requestMatchers("/api/inventory/**").permitAll()
+                    .requestMatchers("/QRcode_product/**").permitAll() 
                     .anyRequest().authenticated()
             );
 

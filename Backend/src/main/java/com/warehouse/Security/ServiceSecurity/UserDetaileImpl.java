@@ -83,8 +83,5 @@ public class UserDetaileImpl implements UserDetails {
     }
 
 
-    public static UserDetails build(Optional<User> user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'build'");
-    }
+   
 }

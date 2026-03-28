@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
   Box,
@@ -14,6 +15,7 @@ const Sidebar = () => {
 
       {/* Top Section */}
       <div>
+
         {/* Logo */}
         <div className="flex items-center gap-2 p-4 border-b border-gray-800">
           <div className="text-green-400 text-2xl">▣</div>
@@ -23,38 +25,81 @@ const Sidebar = () => {
         {/* Menu */}
         <ul className="p-3 space-y-2">
 
-          <li className="flex items-center justify-between bg-green-500 text-black px-3 py-2 rounded-lg cursor-pointer">
-            <div className="flex items-center gap-2">
-              <LayoutDashboard size={18} />
-              Dashboard
-            </div>
-            <span>{">"}</span>
-          </li>
+          {/* Dashboard */}
+          <NavLink to="/dashboard">
+            {({ isActive }) => (
+              <li className={`flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer 
+              ${isActive ? "bg-green-500 text-black" : "text-gray-300 hover:bg-gray-800"}`}>
+                
+                <div className="flex items-center gap-2">
+                  <LayoutDashboard size={18} />
+                  Dashboard
+                </div>
 
-          <li className="flex items-center gap-2 px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer">
-            <Box size={18} />
-            Products
-          </li>
+                <span>{">"}</span>
+              </li>
+            )}
+          </NavLink>
 
-          <li className="flex items-center gap-2 px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer">
-            <Boxes size={18} />
-            Inventory
-          </li>
+          {/* Products */}
+          <NavLink to="/products">
+            {({ isActive }) => (
+              <li className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer 
+              ${isActive ? "bg-green-500 text-black" : "text-gray-300 hover:bg-gray-800"}`}>
+                
+                <Box size={18} />
+                Products
+              </li>
+            )}
+          </NavLink>
 
-          <li className="flex items-center gap-2 px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer">
-            <Archive size={18} />
-            Storage Bins
-          </li>
+          {/* Inventory */}
+          <NavLink to="/inventory">
+            {({ isActive }) => (
+              <li className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer 
+              ${isActive ? "bg-green-500 text-black" : "text-gray-300 hover:bg-gray-800"}`}>
+                
+                <Boxes size={18} />
+                Inventory
+              </li>
+            )}
+          </NavLink>
 
-          <li className="flex items-center gap-2 px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer">
-            <ClipboardList size={18} />
-            Orders
-          </li>
+          {/* Storage */}
+          <NavLink to="/storage">
+            {({ isActive }) => (
+              <li className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer 
+              ${isActive ? "bg-green-500 text-black" : "text-gray-300 hover:bg-gray-800"}`}>
+                
+                <Archive size={18} />
+                Storage Bins
+              </li>
+            )}
+          </NavLink>
 
-          <li className="flex items-center gap-2 px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer">
-            <QrCode size={18} />
-            Serial Numbers
-          </li>
+          {/* Orders */}
+          <NavLink to="/orders">
+            {({ isActive }) => (
+              <li className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer 
+              ${isActive ? "bg-green-500 text-black" : "text-gray-300 hover:bg-gray-800"}`}>
+                
+                <ClipboardList size={18} />
+                Orders
+              </li>
+            )}
+          </NavLink>
+
+          {/* Serial */}
+          <NavLink to="/serial">
+            {({ isActive }) => (
+              <li className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer 
+              ${isActive ? "bg-green-500 text-black" : "text-gray-300 hover:bg-gray-800"}`}>
+                
+                <QrCode size={18} />
+                Serial Numbers
+              </li>
+            )}
+          </NavLink>
 
         </ul>
       </div>

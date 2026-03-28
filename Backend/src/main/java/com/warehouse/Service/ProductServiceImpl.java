@@ -2,11 +2,15 @@ package com.warehouse.Service;
 
 
 import com.warehouse.QRcode.QrCodeGenerator;
+import com.warehouse.Repository.OrderitemRepository;
 import com.warehouse.Repository.ProductRepository;
 import com.warehouse.dto.DisplayProductdto;
 import com.warehouse.dto.Productdto;
 import com.warehouse.dto.UpdateProductdto;
 import com.warehouse.model.Product;
+
+import jakarta.persistence.Column;
+import jakarta.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +31,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository  productRepo;
 
-
+   @Autowired
+   private OrderitemRepository orderItemRepo;
 
     @Override
     public Product saveProduct(Productdto productdto) {
@@ -94,24 +99,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product deleteProduct(Long id) {
-
+    
         Product product = productRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        String qrPath = product.getQrCode();
-
-        try {
-            File file = new File(qrPath);
-            if (file.exists()) {
-                file.delete();
-            }
-        }
-        catch (Exception e) {
-            System.out.println("QR code deletion failed");
-        }
-
-        productRepo.delete(product);
-        return product;
+  
+        product.setActive(false);
+    
+        return productRepo.save(product);
     }
 
     @Override

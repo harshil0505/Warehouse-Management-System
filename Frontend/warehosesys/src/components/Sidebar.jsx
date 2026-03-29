@@ -66,7 +66,7 @@ const Sidebar = () => {
           </NavLink>
 
           {/* Storage */}
-          <NavLink to="/storage">
+          <NavLink to="/strogeBin">
             {({ isActive }) => (
               <li className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer 
               ${isActive ? "bg-green-500 text-black" : "text-gray-300 hover:bg-gray-800"}`}>

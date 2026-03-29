@@ -53,37 +53,47 @@ public class InventoryServiceImpl implements InventoryService {
     @Autowired
     private StockAdjustmentRepository stockAdjustmentsRepository;
     
-   @Override
-public Inventorydto addStock(Inventorydto dto, Long productId) {
-
-    Product product = productRepository.findById(productId)
-        .orElseThrow(() -> new ResourceNotFoundException(
-            "Product not found with id: " + productId,
-            "productId",
-            productId.toString()
-        ));
-
-    StorageBin storageBin = storageBinRepository.findById(dto.getStorageBinId())
-        .orElseThrow(() -> new ResourceNotFoundException(
-            "StorageBin not found",
-            "storageBinId",
-            dto.getStorageBinId().toString()
-        ));
-
-    Inventory inventory = new Inventory();
-    inventory.setProduct(product);
-    inventory.setQuantity(dto.getQuantity());
-    inventory.setStorageBin(storageBin);
-
-    // update product stock
-    product.setStockQuantity(product.getStockQuantity() + dto.getQuantity());
-    productRepository.save(product);
-
-    Inventory saved = inventoryRepository.save(inventory);
-
-    return modelmapper.map(saved, Inventorydto.class);
-}
-
+    @Override
+    public Inventorydto addStock(Inventorydto dto, Long productId) {
+    
+        Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new ResourceNotFoundException(
+                "Product not found with id: " + productId,
+                "productId",
+                productId.toString()
+            ));
+    
+        StorageBin storageBin = storageBinRepository.findById(dto.getStorageBinId())
+            .orElseThrow(() -> new ResourceNotFoundException(
+                "StorageBin not found",
+                "storageBinId",
+                dto.getStorageBinId().toString()
+            ));
+    
+        // 🔥 HANDLE MULTIPLE RESULTS SAFELY
+        List<Inventory> list = inventoryRepository
+            .findByProductAndStorageBin(product, storageBin);
+    
+        Inventory inventory;
+    
+        if (!list.isEmpty()) {
+            inventory = list.get(0); // take first record
+            inventory.setQuantity(inventory.getQuantity() + dto.getQuantity());
+        } else {
+            inventory = new Inventory();
+            inventory.setProduct(product);
+            inventory.setStorageBin(storageBin);
+            inventory.setQuantity(dto.getQuantity());
+        }
+    
+        // 🔥 UPDATE PRODUCT STOCK
+        product.setStockQuantity(product.getStockQuantity() + dto.getQuantity());
+        productRepository.save(product);
+    
+        Inventory saved = inventoryRepository.save(inventory);
+    
+        return modelmapper.map(saved, Inventorydto.class);
+    }
 
   
 

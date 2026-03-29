@@ -13,95 +13,181 @@ const InventoryPage = () => {
     quantity: ""
   });
 
+  const API = "http://localhost:8080/api";
+
+  // 🔄 Load data
   useEffect(() => {
     fetchInventory();
     fetchProducts();
     fetchBins();
   }, []);
 
-  const fetchInventory = () => {
-    axios.get("http://localhost:8080/api/inventory")
-      .then(res => setInventory(res.data));
+  // 📦 Inventory
+  const fetchInventory = async () => {
+    try {
+      const res = await axios.get(`${API}/inventory`);
+      setInventory(res.data);
+    } catch (err) {
+      console.error("Inventory error:", err);
+    }
   };
 
-  const fetchProducts = () => {
-    axios.get("http://localhost:8080/api/product/all")
-      .then(res => setProducts(res.data));
+  // 📦 Products
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get(`${API}/product/ListAllProduct`);
+      setProducts(res.data);
+    } catch (err) {
+      console.error("Product error:", err);
+    }
   };
 
-  const fetchBins = () => {
-    axios.get("http://localhost:8080/api/storage-bin")
-      .then(res => setBins(res.data));
+  // 📦 Bins
+  const fetchBins = async () => {
+    try {
+      const res = await axios.get(`${API}/storage-bin`);
+      setBins(res.data);
+    } catch (err) {
+      console.error("Bin error:", err);
+    }
   };
 
+  // ➕ Add Inventory
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post("http://localhost:8080/api/inventory", form);
+    if (!form.productId || !form.storageBinId || !form.quantity) {
+      alert("All fields required!");
+      return;
+    }
 
-    fetchInventory();
+    try {
+      await axios.post(
+        `${API}/inventory/add-stock/${form.productId}`,
+        {
+          storageBinId: form.storageBinId,
+          quantity: form.quantity
+        }
+      );
+
+      setForm({ productId: "", storageBinId: "", quantity: "" });
+      fetchInventory();
+
+    } catch (err) {
+      console.error("Add inventory error:", err);
+    }
   };
 
   return (
     <div className="p-6 bg-green-50 min-h-screen">
 
+      {/* Header */}
       <h1 className="text-3xl font-bold text-green-700 mb-6">
-        Inventory Management
+        📦 Inventory Management
       </h1>
 
       {/* FORM */}
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow grid grid-cols-3 gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 rounded-xl shadow border border-green-100 grid grid-cols-3 gap-4"
+      >
 
-        <select onChange={e => setForm({...form, productId: e.target.value})} className="input">
-          <option>Select Product</option>
-          {products.map(p => (
+        {/* Product */}
+        <select
+          value={form.productId}
+          onChange={(e) => setForm({ ...form, productId: e.target.value })}
+          className="border p-2 rounded"
+        >
+          <option value="">Select Product</option>
+          {products.map((p) => (
             <option key={p.productId} value={p.productId}>
               {p.productName}
             </option>
           ))}
         </select>
 
-        <select onChange={e => setForm({...form, storageBinId: e.target.value})} className="input">
-          <option>Select Bin</option>
-          {bins.map(b => (
+        {/* Bin */}
+        <select
+          value={form.storageBinId}
+          onChange={(e) => setForm({ ...form, storageBinId: e.target.value })}
+          className="border p-2 rounded"
+        >
+          <option value="">Select Bin</option>
+          {bins.map((b) => (
             <option key={b.storageBinId} value={b.storageBinId}>
-              {b.locationcode}
+              {b.locationCode}
             </option>
           ))}
         </select>
 
-        <input type="number" placeholder="Quantity"
-          onChange={e => setForm({...form, quantity: e.target.value})}
-          className="input" />
+        {/* Quantity */}
+        <input
+          type="number"
+          placeholder="Quantity"
+          value={form.quantity}
+          onChange={(e) => setForm({ ...form, quantity: e.target.value })}
+          className="border p-2 rounded"
+        />
 
-        <button className="col-span-3 bg-green-600 text-white p-2 rounded">
+        {/* Button */}
+        <button className="col-span-3 bg-green-600 text-white p-2 rounded hover:bg-green-700">
           Add Inventory
         </button>
 
       </form>
 
       {/* TABLE */}
-      <table className="w-full mt-6 bg-white shadow rounded">
+      <div className="mt-6 bg-white rounded-xl shadow border border-green-100 overflow-x-auto">
+        <table className="w-full">
 
-        <thead className="bg-green-100">
-          <tr>
-            <th>Product</th>
-            <th>Bin</th>
-            <th>Quantity</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {inventory.map(i => (
-            <tr key={i.id} className="text-center border-b">
-              <td>{i.product?.productName}</td>
-              <td>{i.storageBin?.locationcode}</td>
-              <td>{i.quantity}</td>
+          <thead className="bg-green-100">
+            <tr>
+              <th className="p-3 text-left">Product</th>
+              <th className="p-3 text-left">Location</th>
+              <th className="p-3 text-left">Quantity</th>
             </tr>
-          ))}
-        </tbody>
+          </thead>
 
-      </table>
+          <tbody>
+            {inventory.length > 0 ? (
+              inventory.map((i, index) => {
+
+                // 🔥 find product name
+                const product = products.find(p => p.productId === i.productId);
+
+                // 🔥 find bin location
+                const bin = bins.find(b => b.storageBinId === i.storageBinId);
+
+                return (
+                  <tr
+                    key={i.id || index}
+                    className={`${
+                      index % 2 === 0 ? "bg-white" : "bg-green-50"
+                    }`}
+                  >
+                    <td className="p-3">
+                      {product ? product.productName : i.productId}
+                    </td>
+
+                    <td className="p-3 text-green-700 font-semibold">
+                      {bin ? bin.locationCode : i.storageBinId}
+                    </td>
+
+                    <td className="p-3">{i.quantity}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="3" className="text-center p-4">
+                  No inventory found
+                </td>
+              </tr>
+            )}
+          </tbody>
+
+        </table>
+      </div>
 
     </div>
   );

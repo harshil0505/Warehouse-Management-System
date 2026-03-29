@@ -2,18 +2,21 @@ package com.warehouse.dto;
 
 
 
+import com.warehouse.model.LocationcodeType;
+
 import lombok.Data;
 
 @Data
 public class StorageBindto {
     
-    private Long Id;
+    private Long storageBinId;
 
     private String zone;
-    private int row;
-    private int rack;
-    private int shelf;
-    private int bin;
+    private Integer row;
+    private Integer rack;
+    private Integer shelf;
+    private Integer bin;
     private String Locationcode;
+    private LocationcodeType locationcodeType;
    
 }

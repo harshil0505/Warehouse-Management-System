@@ -91,6 +91,9 @@ public class WebSecurityConfig {
                     .requestMatchers("/api/customer/**").hasAnyRole( "ADMIN")
                     .requestMatchers("/api/inventory/**").permitAll()
                     .requestMatchers("/QRcode_product/**").permitAll() 
+                    .requestMatchers("/api/qr/scan/**").permitAll()
+                    .requestMatchers("/api/storage-bin/**").permitAll()
+                    .requestMatchers("/api/product/**").permitAll()
                     .anyRequest().authenticated()
             );
 

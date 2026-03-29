@@ -49,6 +49,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+        if (path.startsWith("/api/inventory") ||
+    path.startsWith("/api/product") ||
+    path.startsWith("/api/storage-bin")) {
+
+    filterChain.doFilter(request, response);
+    return;
+}
         logger.debug("AuthTokenFilter called for URI: {}", path);
     
         try {

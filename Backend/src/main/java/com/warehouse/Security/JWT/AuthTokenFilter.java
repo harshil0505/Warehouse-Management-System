@@ -49,34 +49,34 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        if (path.startsWith("/api/inventory") ||
-    path.startsWith("/api/product") ||
-    path.startsWith("/api/storage-bin")) {
-
-    filterChain.doFilter(request, response);
-    return;
-}
+        
         logger.debug("AuthTokenFilter called for URI: {}", path);
     
         try {
             String jwt = parseJwt(request);
     
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-    
+            if (jwt != null) {
+
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
-    
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-    
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities());
-    
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request));
-    
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            
+                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            
+                    if (jwtUtils.validateJwtToken(jwt)) {
+            
+                        UsernamePasswordAuthenticationToken authentication =
+                                new UsernamePasswordAuthenticationToken(
+                                        userDetails,
+                                        null,
+                                        userDetails.getAuthorities());
+            
+                        authentication.setDetails(
+                                new WebAuthenticationDetailsSource().buildDetails(request));
+            
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
+                }
             }
     
         } catch (Exception e) {

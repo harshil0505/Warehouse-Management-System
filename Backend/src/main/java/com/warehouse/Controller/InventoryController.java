@@ -17,7 +17,7 @@ import com.warehouse.dto.ReserveStockdto;
 import com.warehouse.dto.SerialNoTrakingdto;
 import com.warehouse.dto.StockAdjustmentRequest;
 import com.warehouse.dto.StockAdjustmentsdto;
-import com.warehouse.model.Reasons;
+
 
 @RestController
 @RequestMapping("/api/inventory")

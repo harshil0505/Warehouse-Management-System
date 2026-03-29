@@ -89,11 +89,10 @@ public class WebSecurityConfig {
                     .requestMatchers("/api/order/**").hasAnyRole("STAFF", "ADMIN")
                     .requestMatchers("/api/products/add").hasRole("ADMIN")
                     .requestMatchers("/api/customer/**").hasAnyRole( "ADMIN")
-                    .requestMatchers("/api/inventory/**").permitAll()
+                    .requestMatchers("/api/inventory/**").authenticated()
                     .requestMatchers("/QRcode_product/**").permitAll() 
                     .requestMatchers("/api/qr/scan/**").permitAll()
                     .requestMatchers("/api/storage-bin/**").permitAll()
-                    .requestMatchers("/api/product/**").permitAll()
                     .anyRequest().authenticated()
             );
 

@@ -1,6 +1,5 @@
 package com.warehouse.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import jakarta.persistence.Entity;

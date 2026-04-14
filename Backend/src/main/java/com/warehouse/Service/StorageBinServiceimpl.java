@@ -41,10 +41,10 @@ public class StorageBinServiceimpl  implements StorageBinService {
         entity.setBin(dto.getBin());
         entity.setLocationcodeType(LocationcodeType.BIN);
 
-        // Save first to get ID
+      
         StorageBin saved = repository.save(entity);
 
-        // Generate location code
+        
         String code = generateLocationCode(
             saved.getStorageBinId(),
             saved.getZone(),

@@ -9,7 +9,7 @@ import com.warehouse.dto.Productdto;
 import com.warehouse.dto.UpdateProductdto;
 import com.warehouse.model.Product;
 
-import jakarta.persistence.Column;
+
 import jakarta.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -22,6 +22,7 @@ import java.util.List;
 
 @Service
 @PreAuthorize("hasRole('ADMIN')")
+@Transactional
 public class ProductServiceImpl implements ProductService {
  
    
@@ -76,7 +77,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product updateProduct(UpdateProductdto updatedto ,Long id) {
 
-        Product product = productRepo.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
         product.setProductName(updatedto.getProductName());
         product.setProductDescription(updatedto.getProductDescription());
         product.setBrand(updatedto.getBrand());
@@ -110,7 +113,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public DisplayProductdto getProductById(Long id) {
-        Product product = productRepo.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = productRepo.findById(id)
+               .orElseThrow(() -> new RuntimeException("Product not found"));
+               
         return modelMapper.map(product, DisplayProductdto.class);
     }
     

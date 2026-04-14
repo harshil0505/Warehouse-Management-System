@@ -15,7 +15,7 @@ import com.warehouse.model.Product;
 
 import java.util.List;
 
-//@Controller
+
 @RestController
 @RequestMapping("/api/product")
 @PreAuthorize("hasRole('ADMIN')")

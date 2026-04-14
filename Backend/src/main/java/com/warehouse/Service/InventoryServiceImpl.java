@@ -70,14 +70,14 @@ public class InventoryServiceImpl implements InventoryService {
                 dto.getStorageBinId().toString()
             ));
     
-        // 🔥 HANDLE MULTIPLE RESULTS SAFELY
+       
         List<Inventory> list = inventoryRepository
             .findByProductAndStorageBin(product, storageBin);
     
         Inventory inventory;
     
         if (!list.isEmpty()) {
-            inventory = list.get(0); // take first record
+            inventory = list.get(0); 
             inventory.setQuantity(inventory.getQuantity() + dto.getQuantity());
         } else {
             inventory = new Inventory();
@@ -86,7 +86,6 @@ public class InventoryServiceImpl implements InventoryService {
             inventory.setQuantity(dto.getQuantity());
         }
     
-        // 🔥 UPDATE PRODUCT STOCK
         product.setStockQuantity(product.getStockQuantity() + dto.getQuantity());
         productRepository.save(product);
     
@@ -136,7 +135,6 @@ public class InventoryServiceImpl implements InventoryService {
     public ReserveStockdto reserveStock(ReserveStockdto reserveStockdto) {
 
 
-    // 1. Get Product
     Product product = productRepository.findById(reserveStockdto.getProductId())
         .orElseThrow(() -> new ResourceNotFoundException(
             "Product not found with id: " + reserveStockdto.getProductId(),
@@ -144,12 +142,11 @@ public class InventoryServiceImpl implements InventoryService {
             reserveStockdto.getProductId().toString()
         ));
 
-    // 2. Check stock
+
     if (product.getStockQuantity() < reserveStockdto.getReserveQuantity()) {
         throw new IllegalArgumentException("Insufficient stock available for reservation");
     }
 
-    // 3. Update stock
     int updatedStock = product.getStockQuantity() - reserveStockdto.getReserveQuantity();
     product.setStockQuantity(updatedStock);
     productRepository.save(product);
@@ -159,16 +156,15 @@ public class InventoryServiceImpl implements InventoryService {
     if (inventory == null) {
         throw new RuntimeException("Inventory not found");
     }
-    // 5. Create ReserveStock entity
+
     ReserveStock reserveStock = new ReserveStock();
     reserveStock.setProduct(product);
     reserveStock.setReserveQuantity(reserveStockdto.getReserveQuantity());
     reserveStock.setInventory(inventory);
 
-    // 6. Save reserve stock
     ReserveStock savedReserve = reserveStockRepository.save(reserveStock);
 
-    // 7. Convert to DTO and return
+    
     return modelmapper.map(savedReserve, ReserveStockdto.class);
   }
 

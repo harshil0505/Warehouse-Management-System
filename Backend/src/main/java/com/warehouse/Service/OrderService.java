@@ -32,7 +32,7 @@ public class OrderService implements OrderServ {
     @Autowired
     private CustomerRepo customerRepo;
 
-    // ✅ MAIN METHOD
+
     @Override
     public OrderResponsedto placeOrder(OrderRequestdto dto) {
 
